@@ -1,93 +1,167 @@
 # Nitro Enclace + KMS lock out
 
+# LAUNCH INSTANCE VIA CLI
+
+aws ec2 run-instances \
+--image-id ami-0759f51a90924c166 \
+--count 1 \
+--instance-type m5.xlarge \
+--key-name "WSLDESKTOPWIN" \
+--subnet-id subnet-05064f5ebf36a6796 \
+--associate-public-ip-address \
+--enclave-options 'Enabled=true'
+
+# Notes for SSH to instance: you must enable SSH in the inbound rule of the security group of the above instance
+# Go to EC2 -> instance -> Security -> Inbound Rules -> Click on the corresponding Security Group
+#Edit Inbound Rules and add SSH
+
+ssh -A ec2-user@34.228.63.154
+
+# install dependencies
+
+sudo yum install git docker aws-nitro-enclaves-cli-devel aws-nitro-enclaves-cli gcc pip python3-devel -yy
+
+# configure environment
+
+sudo usermod -aG ne ec2-user
+sudo usermod -aG docker ec2-user
+sudo systemctl enable --now docker
+sudo systemctl enable --now nitro-enclaves-allocator.service
+sudo systemctl enable --now nitro-enclaves-vsock-proxy.service
+sudo reboot
+
+#Note: if you want to allow agent forwarding in new instance, enable it in "sudo nano /etc/ssh/sshd_config"
 
 
-## Getting started
+#donwload app on local folder
+git clone git@gitlab.com:cryptnox-issuer/nitro-enclace-kms-lock-out.git
+#send to remote machine
+scp -r ./nitro-enclace-kms-lock-out/ ec2-user@34.228.63.154:~
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+python3 -m venv venv
+source venv/bin/activate
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+# go into the "enclave" directory:
+cd ./nitro-enclace-kms-lock-out/enclave
 
-## Add your files
+# Install python requirements
+pip install -r enclave/requirements.txt
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+# Build KMS tool:
+chmod +x ./build_kms_tool.sh
+./build_kms_tool.sh
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/cryptnox-issuer/nitro-enclace-kms-lock-out.git
-git branch -M main
-git push -uf origin main
-```
 
-## Integrate with your tools
+# PART X - Perform Key Creation part (see slides)
 
-- [ ] [Set up project integrations](https://gitlab.com/cryptnox-issuer/nitro-enclace-kms-lock-out/-/settings/integrations)
+# in AWS Create the following policy for the key
+# Navigate to "IAM" on AWS Dashboard
+# Click on "Policies", and "Create policy"
+# Click "Next" , then switch to JSON view
 
-## Collaborate with your team
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+{ 
+    "Version": "2012-10-17", 
+    "Statement": [ 
+        { 
+            "Sid": "Statement1", 
+            "Effect": "Allow", 
+            "Action": [ 
+                "kms:CreateKey", 
+                "kms:Encrypt", 
+                "secretsmanager:CreateSecret", 
+                "secretsmanager:GetSecretValue" 
+            ], 
+            "Resource": [ 
+                "*" 
+            ] 
+        } 
+    ] 
+}
 
-## Test and Deploy
+# Click next
+# Input Policy name: "Lockout-kms-policy" or as desired
+# click "Create Policy"
 
-Use the built-in continuous integration in GitLab.
+# PART Y - Generate a secret
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+# etc..etc...
 
-***
 
-# Editing this README
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+# PART ... Build the enclave
 
-## Suggestions for a good README
+# update line 122 of enclave.py in case name of secret is different
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+# Build Docker Image
 
-## Name
-Choose a self-explaining name for your project.
+docker build -t lockout-enclave . 
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+# Convert Docker Image into Enclave Image (EIF file)
+ 
+nitro-cli build-enclave --docker-uri lockout-enclave:latest --output-file lockout.eif
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+# Note: if you type docker images, you will notice that you have the followings:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+# Copy the displayed information below for later
+{
+  "Measurements": {
+    "HashAlgorithm": "Sha384 { ... }",
+    "PCR0": "d425a8dddca64416b9bd2b1a352978198ee2cf2adfea7b899c3b91b441988ce40c867ed6f6234b8de88ec254d40c4bca",
+    "PCR1": "52b919754e1643f4027eeee8ec39cc4a2cb931723de0c93ce5cc8d407467dc4302e86490c01c0d755acfe10dbf657546",
+    "PCR2": "32e5a1eeac8046d3389f2519c7d965f263584b131953b7b3ae54c320194084675bf306a6ef87cc8bccd34549433b396c"
+  }
+}
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+# Update memory_mib to 2560 in:
+sudo nano /etc/nitro_enclaves/allocator.yaml
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+# Restart Allocator Service
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+sudo systemctl restart nitro-enclaves-allocator.service
 
-## License
-For open source projects, say how it is licensed.
+# 
+nitro-cli run-enclave --config enclave-config.json --eif-path lockout.eif
+nitro-cli run-enclave --eif-path lockout.eif --debug-mode
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+# List again enclave details:
+nitro-cli describe-enclaves
+
+# PART ... Update KMS ROLE
+# Find previously created role and copy arn (Something like: arn:aws:iam::665309014761:role/lockout-test-role)
+
+
+# PART... 
+# Write down the PCR0 and policy arn
+# Fill up the below json file with corresponding values for both
+
+{ 
+            "Sid": "Enable decrypt from enclave", 
+            "Effect": "Allow", 
+            "Principal": { 
+                "AWS": "<Insert IAM role ARN here>" 
+            }, 
+            "Action": "kms:Decrypt", 
+            "Resource": "*", 
+            "Condition": { 
+                "StringEqualsIgnoreCase": { 
+                    "kms:RecipientAttestation:ImageSha384": "<Insert the PCR0 Value here>" 
+                } 
+            } 
+}
+
+# Go into KMS, selcted the KMS key used for the projec
+# Go into "key Policy", click on:"Switch to Policy View"
+
+
+
+
+
+
+
+
