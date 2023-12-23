@@ -34,7 +34,7 @@ def kms_call(credential, ciphertext):
         "/enclave/kms/kmstool_enclave_cli",
         "decrypt",
         "--region",
-        "eu-central-1",
+        "us-east-1",
         "--proxy-port",
         "8000",
         "--aws-access-key-id",

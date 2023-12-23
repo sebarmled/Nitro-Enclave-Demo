@@ -3,8 +3,8 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import serialization
 
 # Initialize boto3 clients
-kms_client = boto3.client('kms','eu-central-1')
-secrets_client = boto3.client('secretsmanager','eu-central-1')
+kms_client = boto3.client('kms','us-east-1')
+secrets_client = boto3.client('secretsmanager','us-east-1')
 
 # Step 1: Generate an EC 521 private key
 print(f'Generating private key')
