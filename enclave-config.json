@@ -1,0 +1,8 @@
+{
+    "enclave_name": "lockout",
+    "cpu_count": 2,
+    "memory_mib": 2560,
+    "eif_path": "./lockout.eif",
+    "enclave_cid": 20,
+    "debug_mode": false
+}
