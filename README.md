@@ -1,4 +1,4 @@
-# Nitro Enclace + KMS lock out
+# Nitro Enclave + KMS lock out
 
 ## Tutorial steps
 ### (1) Launch EC2 instance via CLI
