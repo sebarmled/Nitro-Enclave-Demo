@@ -1,5 +1,20 @@
 # Nitro Enclave + KMS lock out
 
+## Overview
+
+This project demonstrates a powerful security paradigm: enabling a specific enclave to exclusively possess decryption capabilities using a designated KMS (Key Management Service) key. The key aspect of this demonstration is the intentional exclusion of root user access to the decryption process.
+
+### Key Objectives
+
+Exclusive Decryption by Enclave: Illustrate how an enclave can be the only entity capable of decrypting a secret, leveraging a specified KMS key.
+Root User Restriction: Showcase the process of restricting even the root user from accessing the decrypted content, thereby enhancing the security model.
+
+### End Goal
+
+The culmination of this demo is a practical and compelling demonstration where the enclave successfully decrypts a secret using the KMS key. This process uniquely occurs without granting decryption capabilities to the root user, thereby emphasizing the enclave's exclusive access and operation.
+
+As an insightful exploration into advanced security mechanisms, the demo showcases how controlled access to encrypted data can be effectively implemented in a cloud environment.
+
 ## Tutorial steps
 ### (1) Launch EC2 instance via CLI
 
