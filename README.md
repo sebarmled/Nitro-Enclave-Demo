@@ -234,12 +234,12 @@ Each command to be executed in a seperate terminal shell:
 ```
 python relay_server.py
 ```
- - Run test script
+ - Run test script \
    _This sends a test transaction to enclave for signing bytes using the secret seed in Secret Manager decrypted by KMS key_
 ```
 python test.py
 ```
- - Run user decryption test (Expects to output a permissions error)
+ - Run user decryption test (Expects to output a permissions error) \
    _The permissions error returned hereby confirms that usage of the key from root account is disabled (hence, locked out)_
 
 
