@@ -112,7 +112,9 @@ source venv/bin/activate
 cd ./nitro-enclace-kms-lock-out/enclave
 pip install -r enclave/requirements.txt
 ```
- - Build KMS tool
+ - Build KMS tool \
+   This script builds a CLI tool provided by AWS, which can be found at https://github.com/aws/aws-nitro-enclaves-sdk-c.
+   With built-in support for KMS attestation and cryptographic operations, the tool is bundled into the enclave application and leveraged for attestated decryption of encrypted secrets.
 ```
 chmod +x ./build_kms_tool.sh
 ./build_kms_tool.sh
@@ -275,6 +277,11 @@ python test.py
  - Run user decryption test (Expects to output a permissions error) \
    _The permissions error returned hereby confirms that usage of the key from root account is disabled (hence, locked out)_
 
+
+# Transaction signature flow
+The following diagram illustrates the flow of operations in the execution of the test.
+
+![tx-sign-diagram](txsign-test-diagram.png)
 
 
 
