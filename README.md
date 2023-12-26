@@ -16,7 +16,10 @@ The culmination of this demo is a practical and compelling demonstration where t
 As an insightful exploration into advanced security mechanisms, the demo showcases how controlled access to encrypted data can be effectively implemented in a cloud environment.
 
 ## Tutorial steps
-### (1) Launch EC2 instance via CLI
+### (1) Launch EC2 instance
+The EC2 instance can be launched by preferred choice of 2 options: CLI or AWS Console. \
+\
+Launching via CLI
 
 ```
 aws ec2 run-instances \
@@ -29,9 +32,24 @@ aws ec2 run-instances \
 --enclave-options 'Enabled=true'
 ```
 
+Launching via AWS Console
+  - On AWS dashboard, navigate to service: EC2
+  - Click on "Launch instance"
+  - Provide a name for the instance
+  - Amazon linux 2023 AMI should be auto-selected, if not please select
+  - Architecture 64-bit (x86) should be auto-selected, if not please select
+  - For instance type, click to open up drop-down, search for m5.xlarge and select
+  - At key-pair login, create a new key-pair
+  - Under network settings, "Create a new security group" should be auto-selected if not please select
+  - Under network settings, "Allow SSH from" should be auto-selected, if not please select, change "Anywhere" to "My IP" \
+    (Changing "Anywhere" to "MyIP" here satisfies the step (2) which produces the same changes)
+  - Click on "Advanced settings" to open up the section, scroll down to "Nitro Enclave" and select "Enable"
+  - Click on "Launch instance"
+
 ### (2) Edit security group rules to allow SSH
 
-For SSH access to our newly launched ec2 instance, an inbound rule must be added to the corresponding security group.
+For SSH access to our newly launched ec2 instance, an inbound rule must be added to the corresponding security group. \
+_Note:This step can be skipped if ec2 was launched via AWS console and SSH access was set to "MyIP" under Network settings_
 - On AWS dashboard, Navigate to service: EC2
 - Click on "instances" in the side-bar on the left
 - Click to select the previously launched instance, click on "Security" tab on the panel below
