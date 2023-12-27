@@ -29,7 +29,7 @@ aws ec2 run-instances \
 --image-id <LATEST_AMAZON_LINUX_AMI> \
 --count 1 \
 --instance-type m5.xlarge \
---key-name "<YOUR_KEY_NAME_FOR_SSH_ACCESS" \
+--key-name "<YOUR_KEY_NAME_FOR_SSH_ACCESS>" \
 --subnet-id <REQUIRED_SUBNET_ID> \
 --associate-public-ip-address \
 --enclave-options 'Enabled=true'
