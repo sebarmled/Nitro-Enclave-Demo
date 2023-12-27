@@ -73,7 +73,7 @@ ssh ec2-user@<PUBLIC_IP_ADDRESS_OF_EC2_INSTANCE>
 ```
  - Download current project files to ec2 instance
 ```
-git clone git@github.com:sebarmled/Nitro-Enclave-Demo.git
+git clone https://github.com/sebarmled/Nitro-Enclave-Demo.git
 ```
 
 ### (4) Setup EC2 instance
