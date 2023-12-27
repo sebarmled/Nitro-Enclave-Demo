@@ -34,15 +34,16 @@ aws ec2 run-instances \
 --associate-public-ip-address \
 --enclave-options 'Enabled=true'
 ```
+Note: make sure SSH access is added to the security group corresponding to the EC2 instance
 
 Launching via AWS Console
   - On AWS dashboard, navigate to service: EC2
   - Click on "Launch instance"
   - Provide a name for the instance
-  - Amazon linux 2023 AMI should be auto-selected, if not please select
+  - Latest Amazon linux AMI should be auto-selected, if not please select
   - Architecture 64-bit (x86) should be auto-selected, if not please select
   - For instance type, click to open up drop-down, search for m5.xlarge and select
-  - At key-pair login, create a new key-pair
+  - At key-pair login (for SSH), add or create a new key pair for SSH access
   - Under network settings, "Create a new security group" should be auto-selected if not please select
   - Under network settings, "Allow SSH from" should be auto-selected, if not please select, change "Anywhere" to "My IP" \
     (Changing "Anywhere" to "MyIP" here satisfies the step (2) which produces the same changes)
@@ -68,7 +69,7 @@ Note: Steps below are to be performed on local machine.
 
  - Download app files in local machine
 ```
-git clone git@gitlab.com:cryptnox-issuer/nitro-enclace-kms-lock-out.git
+git clone git@github.com:sebarmled/Nitro-Enclave-Demo.git
 ```
  - Send app files to ec2 instance
 ```
