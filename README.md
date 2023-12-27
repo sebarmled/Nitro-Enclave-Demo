@@ -71,6 +71,10 @@ Note: Steps below are to be performed on the remote machine.
 ```
 ssh ec2-user@<PUBLIC_IP_ADDRESS_OF_EC2_INSTANCE>
 ```
+ - Install project dependencies
+```
+sudo yum install git docker aws-nitro-enclaves-cli-devel aws-nitro-enclaves-cli gcc pip python3-devel -y
+```
  - Download current project files to ec2 instance
 ```
 git clone https://github.com/sebarmled/Nitro-Enclave-Demo.git
@@ -78,10 +82,6 @@ git clone https://github.com/sebarmled/Nitro-Enclave-Demo.git
 
 ### (4) Setup EC2 instance
 
- - Install dependencies
-```
-sudo yum install git docker aws-nitro-enclaves-cli-devel aws-nitro-enclaves-cli gcc pip python3-devel -y
-```
  - Add user permissions
 ```
 sudo usermod -aG ne ec2-user
@@ -98,15 +98,10 @@ sudo systemctl enable --now nitro-enclaves-vsock-proxy.service
 sudo reboot
 ```
 ### (5) Setup app requirements
- - Create python virutal environment & activate
+ - Navigate to "Nitro-Enclave-Demo" directory and install dependencies
 ```
-python3 -m venv venv
-source venv/bin/activate
-```
- - Navigate to "enclave" directory and install dependencies
-```
-cd ./nitro-enclace-kms-lock-out/enclave
-pip install -r enclave/requirements.txt
+cd Nitro-Enclave-Demo
+pip install -r ./enclave/requirements.txt
 ```
  - Build KMS tool \
    This script builds a CLI tool provided by AWS, which can be found at https://github.com/aws/aws-nitro-enclaves-sdk-c.
