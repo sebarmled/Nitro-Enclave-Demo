@@ -284,6 +284,17 @@ python test.py
 # Transaction signature flow
 The following diagram illustrates the flow of operations in the execution of the test.
 
+## Workflow
+Process of the transaction is as belows:
+ - Tx is sent from test.py to enclave via vsock
+ - enclave.py requests relay_server.py to fetch credentials and encrypted seed
+ - relay_server.py fetches credentials from AWS IMDS , encrypted seed from AWS secrets manager then relays back to enclave.py
+ - enclave.py calls decrypt via kms_tool
+ - kms_tool sends encrypted seed as ciphertext to AWS KMS via nitro-enclave-vsock-proxy-service on host ec2
+ - KMS decrypts the encrypted seed and returns plaintext encrypted by public key of attestation document, also via nitro-enclave-vsock-proxy-service on host ec2
+ - encrypted plaintext is decrypted once returned and is used by envclave.py to sign Tx
+ - signed Tx is sent back to test.py via vsock
+
 <p align="center">
   <img src="txsign-test-diagram.png" alt="tx-sign-diagram">
 </p>
