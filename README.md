@@ -93,10 +93,6 @@ sudo systemctl enable --now docker
 sudo systemctl enable --now nitro-enclaves-allocator.service
 sudo systemctl enable --now nitro-enclaves-vsock-proxy.service
 ```
- - (Optional) Enable agent-forwarding
-```
-sudo nano /etc/ssh/sshd_config
-```
  - Reboot for changes to take effect
 ```
 sudo reboot
