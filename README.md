@@ -26,11 +26,11 @@ Launching via CLI
 
 ```
 aws ec2 run-instances \
---image-id ami-0759f51a90924c166 \
+--image-id <LATEST_AMAZON_LINUX_AMI> \
 --count 1 \
 --instance-type m5.xlarge \
---key-name "WSLDESKTOPWIN" \
---subnet-id subnet-05064f5ebf36a6796 \
+--key-name "<YOUR_KEY_NAME_FOR_SSH_ACCESS" \
+--subnet-id <REQUIRED_SUBNET_ID> \
 --associate-public-ip-address \
 --enclave-options 'Enabled=true'
 ```
