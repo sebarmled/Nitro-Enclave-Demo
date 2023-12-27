@@ -1,4 +1,7 @@
-# Nitro Enclave + KMS lock out
+<h1 align="center">Nitro Enclave + KMS lock out</h1>
+<p align="center">
+  <img src="txsign-test-simple.png" alt="tx-sign-simple">
+</p>
 
 ## Overview
 
@@ -281,7 +284,9 @@ python test.py
 # Transaction signature flow
 The following diagram illustrates the flow of operations in the execution of the test.
 
-![tx-sign-diagram](txsign-test-diagram.png)
+<p align="center">
+  <img src="txsign-test-diagram.png" alt="tx-sign-diagram">
+</p>
 
 
 
