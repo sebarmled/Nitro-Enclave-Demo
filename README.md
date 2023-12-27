@@ -65,23 +65,19 @@ If there is a rule:
 - Update Type to "SSH", Source to "My IP" and save
 
 ### (3) Transfer app files to ec2 instance
-Note: Steps below are to be performed on local machine.
+Note: Steps below are to be performed on the remote machine.
 
- - Download app files in local machine
+ - SSH into your ec2 instance
+```
+ssh ec2-user@<PUBLIC_IP_ADDRESS_OF_EC2_INSTANCE>
+```
+ - Download current project files to ec2 instance
 ```
 git clone git@github.com:sebarmled/Nitro-Enclave-Demo.git
-```
- - Send app files to ec2 instance
-```
-scp -r ./nitro-enclace-kms-lock-out/ ec2-user@34.228.63.154:~
 ```
 
 ### (4) Setup EC2 instance
 
- - Connect to ec2 instance via SSH 
-```
-ssh -A ec2-user@34.228.63.154
-```
  - Install dependencies
 ```
 sudo yum install git docker aws-nitro-enclaves-cli-devel aws-nitro-enclaves-cli gcc pip python3-devel -y
