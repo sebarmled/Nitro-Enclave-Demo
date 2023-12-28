@@ -15,9 +15,9 @@ import socket
 Setup AWS clients
 """
 secrets_manager_client = boto3.client(
-    service_name="secretsmanager", region_name=os.getenv("REGION", "eu-central-1"))
+    service_name="secretsmanager", region_name=os.getenv("REGION", "us-east-1"))
 kms_client = boto3.client(
-    service_name="kms", region_name=os.getenv("REGION", "eu-central-1"))
+    service_name="kms", region_name=os.getenv("REGION", "us-east-1"))
 
 
 def get_aws_session_token():
