@@ -20,7 +20,7 @@ As an insightful exploration into advanced security mechanisms, the demo showcas
 
 ## Tutorial steps
 ### (1) Launch EC2 instance
-The EC2 instance can be launched by preferred choice of 2 options: CLI or AWS Console. \
+Make sure you are in the "default" us-east-1 / Virginia AWS region (otherwise code needs updating). The EC2 instance can be launched by preferred choice of 2 options: CLI or AWS Console. \
 \
 Launching via CLI
 
