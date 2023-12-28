@@ -170,7 +170,7 @@ chmod +x ./build_kms_tool.sh
      - On ec2 instance, run the file `create_key.py` with KMS ARN & secret name as parameters
      - For the kms_arn field below, got into KMS in the AWS console, and fetch the arn of the KMS key created in step 6
      - For the secret_name below, choose any text of your choice
-        ```
+       
        Format:
         ```
         python3 create_key.py <kms_arn> <secret_name>
