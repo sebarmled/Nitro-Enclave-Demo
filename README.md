@@ -200,9 +200,9 @@ sudo nano /etc/nitro_enclaves/allocator.yaml
 ```
 sudo systemctl restart nitro-enclaves-allocator.service
 ```
- - Run enclave
+ - Run enclave (from where the nitro image file "lockout.eif" is located)
 ```
-nitro-cli run-enclave --enclave-cid 20 --eif-path ./lockout.eif --cpu-count 2 --memory 2560 --debug-mode false --enclave-name lockout
+nitro-cli run-enclave --enclave-cid 20 --eif-path ./lockout.eif --cpu-count 2 --memory 2560 --enclave-name lockout
 ```
  - (Optional) Confirm enclave is running
 ```
