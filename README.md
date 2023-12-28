@@ -242,7 +242,7 @@ nitro-cli describe-enclaves
            "Principal":{
                    "AWS":"<Insert IAM role ARN here>"
            },
-           "Action":"kms:Deecrypt",
+           "Action":"kms:Decrypt",
            "Resource":"*",
            "Condition":{
                "StringEqualsIgnoreCase":{
