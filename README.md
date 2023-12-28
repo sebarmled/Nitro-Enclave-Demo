@@ -257,16 +257,16 @@ nitro-cli describe-enclaves
        _This ensures the enclave to be the sole existing resource with decryption capabilities_
   
 ### (10) Test the setup
-Each command to be executed in a seperate terminal shell:
+Each command to be executed in a seperate terminal shell, inside the /Nitro-Enclave-Demo folder:
  - Run relay server \
    _This starts the relay server which helps enclave fetch secrets_
 ```
-python relay_server.py
+python3 relay_server.py
 ```
  - Run test script \
    _This sends a test transaction to enclave for signing bytes using the secret seed in Secret Manager decrypted by KMS key_
 ```
-python test.py
+python3 test.py
 ```
  - Run user decryption test (Expects to output a permissions error) \
    _The permissions error returned hereby confirms that usage of the key from root account is disabled (hence, locked out)_
