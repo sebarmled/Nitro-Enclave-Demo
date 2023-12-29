@@ -110,6 +110,12 @@ pip install -r ./enclave/requirements.txt
 chmod +x ./build_kms_tool.sh
 ./build_kms_tool.sh
 ```
+ - Define environment variables
+   These variables would be used in the enclave and relay server accordingly
+```
+echo -e "\nexport REGION=us-east-1\nexportSECRET=secretlock" >> ~/.bashrc
+source ~/.bashrc
+```
 
 ### (6) KMS Key and IAM policy creation
  - Create KMS key for encryption & decryption purposes:
@@ -184,7 +190,7 @@ chmod +x ./build_kms_tool.sh
  - In enclave.py, line 122, replace the secret name with the previously saved secret name and save file
  - Build docker image
 ```
-docker build -t lockout-enclave .
+docker build --build-arg REGION=$REGION  --build-arg SECRET=$SECRET -t lockout-enclave .
 ```
  - Build enclave image file (EIF)
 ```
