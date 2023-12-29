@@ -2,7 +2,13 @@ FROM python:3.10-slim
 
 LABEL maintainer="cj.christopherjude@gmail.com"
 
+ARG REGION
+ARG SECRET
+
 ENV ENVIRONMENT prod
+
+ENV REGION=$REGION
+ENV SECRET=$SECRET
 
 ENV LD_LIBRARY_PATH /enclave/kms/
 
