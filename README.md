@@ -110,7 +110,7 @@ pip install -r ./enclave/requirements.txt
 chmod +x ./build_kms_tool.sh
 ./build_kms_tool.sh
 ```
- - Define environment variables
+ - Define environment variables \
    These variables would be used in the enclave and relay server accordingly
 ```
 echo -e "\nexport REGION=us-east-1\nexportSECRET=secretlock" >> ~/.bashrc
