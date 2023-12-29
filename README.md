@@ -187,7 +187,6 @@ source ~/.bashrc
         ```
 
 ### (8) Enclave setup
- - In enclave.py, line 122, replace the secret name with the previously saved secret name and save file
  - Build docker image
 ```
 docker build --build-arg REGION=$REGION  --build-arg SECRET=$SECRET -t lockout-enclave .
