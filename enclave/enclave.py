@@ -34,7 +34,7 @@ def kms_call(credential, ciphertext):
         "/enclave/kms/kmstool_enclave_cli",
         "decrypt",
         "--region",
-        "us-east-1",
+        os.getenv('REGION'),
         "--proxy-port",
         "8000",
         "--aws-access-key-id",
@@ -119,7 +119,7 @@ def send_aws_request_to_ec2(request_type, payload):
     return base64_decoded
 
 def sign_bytes(bytes_to_sign):
-    private_key_data = send_aws_request_to_ec2("get_secret", {"secret_name": "521ec"})
+    private_key_data = send_aws_request_to_ec2("get_secret", {"secret_name": os.getenv('SECRET')})
     print(f'Private key data:{private_key_data}')
     private_key = load_pem_private_key(private_key_data, password=None, backend=default_backend())
     

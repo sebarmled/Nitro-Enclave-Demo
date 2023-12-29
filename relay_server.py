@@ -4,20 +4,29 @@ import boto3
 import os
 import json
 import logging
+import sys
 
 from http import client
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import socket
 
+if not os.getenv('REGION'):
+    print('Please define region environment variable')
+    sys.exit(0)
+
+if not os.getenv('SECRET'):
+    print('Please define secret environment variable')
+    sys.exit(0)
+    
 
 """
 Setup AWS clients
 """
 secrets_manager_client = boto3.client(
-    service_name="secretsmanager", region_name=os.getenv("REGION", "us-east-1"))
+    service_name="secretsmanager", region_name=os.getenv("REGION"))
 kms_client = boto3.client(
-    service_name="kms", region_name=os.getenv("REGION", "us-east-1"))
+    service_name="kms", region_name=os.getenv("REGION"))
 
 
 def get_aws_session_token():
