@@ -200,6 +200,7 @@ nitro-cli build-enclave --docker-uri lockout-enclave:latest --output-file lockou
 sudo nano /etc/nitro_enclaves/allocator.yaml
 ```
  - Update "memory_mib" to 2560
+ - (to save) press "Ctrl + O"
  - (To exit) press "Ctrl + X", "Y", then "Enter"
  - Restart the service
 ```
