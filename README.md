@@ -104,7 +104,7 @@ cd Nitro-Enclave-Demo
 pip install -r ./enclave/requirements.txt
 ```
  - Define environment variables \
-   These variables would be used in the enclave and relay server accordingly
+   These variables would be used in the enclave, relay server and in the process of building the KMS tool.
 ```
 echo -e "\nexport REGION=us-east-1\nexport SECRET=secretlock" >> ~/.bashrc
 source ~/.bashrc
