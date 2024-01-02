@@ -103,18 +103,18 @@ sudo reboot
 cd Nitro-Enclave-Demo
 pip install -r ./enclave/requirements.txt
 ```
+ - Define environment variables \
+   These variables would be used in the enclave and relay server accordingly
+```
+echo -e "\nexport REGION=us-east-1\nexport SECRET=secretlock" >> ~/.bashrc
+source ~/.bashrc
+```
  - Build KMS tool \
    This script builds a CLI tool provided by AWS, which can be found at https://github.com/aws/aws-nitro-enclaves-sdk-c.
    With built-in support for KMS attestation and cryptographic operations, the tool is bundled into the enclave application and leveraged for attestated decryption of encrypted secrets.
 ```
 chmod +x ./build_kms_tool.sh
 ./build_kms_tool.sh
-```
- - Define environment variables \
-   These variables would be used in the enclave and relay server accordingly
-```
-echo -e "\nexport REGION=us-east-1\nexport SECRET=secretlock" >> ~/.bashrc
-source ~/.bashrc
 ```
 
 ### (6) KMS Key and IAM policy creation
