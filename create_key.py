@@ -2,6 +2,7 @@ import boto3
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import serialization
 import sys
+import os
 
 if len(sys.argv) != 3:
     print("Usage: python create_key.py <kms_key_arn> <secret_name>")
@@ -11,8 +12,8 @@ kms_key_id = sys.argv[1]
 secret_name = sys.argv[2]
 
 # Initialize boto3 clients
-kms_client = boto3.client('kms','us-east-1')
-secrets_client = boto3.client('secretsmanager','us-east-1')
+kms_client = boto3.client('kms',os.getenv('REGION'))
+secrets_client = boto3.client('secretsmanager',os.getenv('REGION'))
 
 # Step 1: Generate an EC 521 private key
 print(f'Generating private key')
