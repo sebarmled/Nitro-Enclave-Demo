@@ -258,7 +258,7 @@ nitro-cli describe-enclaves
        }
        ```
      - Delete JSON block containing permissions for the root user \
-       _This locks out the root user_
+       _This locks out the root user, as well as all existing IAM User or IAM Role Permissions_
      - Delete the line "kms:Decrypt" from the JSON block for Key admministrators \
        _This ensures the enclave to be the sole existing resource with decryption capabilities_
   
