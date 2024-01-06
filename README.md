@@ -237,7 +237,7 @@ nitro-cli describe-enclaves
         }
        ```
  - Update KMS policy
-     - On AWS dashboard, navgate to service: Key Management Service (KMS)
+     - On AWS dashboard, navigate to service: Key Management Service (KMS)
      - Click on "Customer managed keys" in the side-bar on the left
      - Click "JSON' to switch the policy editor to JSON view
      - Add the following rule in the statement list, fill in the ARN and PCR0 values at respective locations
