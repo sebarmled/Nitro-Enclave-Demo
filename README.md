@@ -9,7 +9,7 @@ This project demonstrates a powerful security paradigm: enabling a specific encl
 
 ### Key Objectives
 
-Exclusive Decryption by Enclave: Illustrate how an enclave can be the only entity capable of decrypting a secret, leveraging a specified KMS key.
+Exclusive Decryption by Enclave: Illustrate how an enclave can be the only entity capable of decrypting a secret and performing computation with it, thus leveraging a specified KMS key.
 Root User Restriction: Showcase the process of restricting even the root user from accessing the decrypted content, thereby enhancing the security model.
 
 ### End Goal
